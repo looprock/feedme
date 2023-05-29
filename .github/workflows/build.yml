@@ -27,3 +27,17 @@ jobs:
           poetry-version: 1.3.2
       - name: View poetry
         run: poetry install && poetry run ./feedme.py
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp.html
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: tmp.html
+      - name: Copy artifact to repository
+        run: |
+          mv tmp.html index.html
+          git add index.html
+          git commit -m "update index.html"
+          git push
