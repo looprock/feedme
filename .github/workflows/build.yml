@@ -1,0 +1,29 @@
+name: Build
+on:
+  workflow_dispatch:
+    inputs:
+      stack:
+        description: 'debug level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+        - debug
+        - info
+jobs:
+  build:
+    name: 'build container'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Run image
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.3.2
+      - name: View poetry
+        run: poetry install
